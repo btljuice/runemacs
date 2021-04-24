@@ -25,12 +25,11 @@
 ;;;; Section: Initialize package system
 (require 'package) ; emacs package system
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ;; ("melpa-stable" . "https://stable.melpa.org/packages/")
                          ("org" . "https://orgmode.org/elpa/")
                          ("elpa" . "https://elpa.gnu.org/packages/")))
 (package-initialize)
 (unless package-archive-contents (package-refresh-contents)) ; Updates the packages list if it's empty
-					; This process can be done manually through M-x list-packages then 'U'
+					                     ; This process can be done manually through M-x list-packages then 'U'
 (unless (package-installed-p 'use-package) (package-install 'use-package)) ; Install use-package for the first time
 (require 'use-package) ; package helper
 ; (setq use-package-verbose t) ; Uncomment to PROFILE packages loaded at startup
@@ -70,16 +69,13 @@
   :init (global-undo-tree-mode 1))
 
 ;;;; UI packages
+(use-package all-the-icons) ; Required icons for doom-modeline
+                            ; First run: M-x all-the-icons-install-fonts
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
   :custom (doom-modeline-height 15))
 
-; Required icons for doom-modeline
-; First run: M-x all-the-icons-install-fonts
-(use-package all-the-icons)
-
 (use-package rainbow-delimiters
-  :diminish
   :hook (prog-mode . rainbow-delimiters-mode))
 
 ;;;; Discoverability
@@ -103,8 +99,7 @@
 
 ;;;; Evil and Keybindings
 (use-package general
-  :config (general-evil-setup t)
-          (general-create-definer rune/leader-keys
+  :config (general-create-definer rune/leader-keys
             :keymaps '(normal insert visual emacs)
             :prefix "SPC"
             :global-prefix "C-SPC")
@@ -119,6 +114,7 @@
   (add-to-list 'evil-emacs-state-modes mode)))
 
 (use-package evil
+  :demand
   :init (setq evil-want-integration t)
         (setq evil-want-keybinding nil)
         (setq evil-want-C-u-scroll t)
